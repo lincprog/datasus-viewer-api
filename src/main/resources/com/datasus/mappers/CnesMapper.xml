@@ -1,0 +1,51 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datasus.mappers.CnesMapper">
+
+    <select id="findByCnes" resultType="com.datasus.model.Cnes" parameterType="String">
+        select *
+        from cnes_st
+        WHERE cnes = #{cnes}
+    </select>
+
+    <select id="findAll" resultType="com.datasus.model.Cnes">
+        select *
+        from cnes_st
+    </select>
+
+    <!--<select id="agrupar" resultType="com.datasus.modelCnes" parameterType="String" >-->
+    <!--select ${colunas},count(0) as contAgrupamento from cnes_st group by ${colunas}-->
+    <!--</select>-->
+
+    <select id="groupingReport" resultType="java.util.LinkedHashMap">
+        SELECT count(0) as contador,${colunas}
+        FROM cnes_pf pf
+        INNER JOIN municipio m ON m.codigo_mun_datasus = pf.CODUFMUN::integer
+        INNER JOIN tipo_pessoa t on t.id = pf.pf_pj::integer
+        WHERE 1 = 1
+        <if test="uf != null">
+            AND m.uf = #{uf}
+        </if>
+        <if test="listaMunicipios != null">
+            AND cast ( codufmun as varchar) in
+            <foreach item="sId" collection="listaMunicipios" separator="," open="(" close=")">
+                #{sId}
+            </foreach>
+        </if>
+        <if test="cbos != null">
+            AND cast ( pf.CBO as varchar) in
+            <foreach item="cbo" collection="cbos" separator="," open="(" close=")">
+                #{cbo}
+            </foreach>
+        </if>
+        <if test="isSUS != null">
+            AND PROF_SUS::boolean = #{isSUS}
+        </if>
+        <if test="notIsSUS != null">
+            AND PROFNSUS::boolean = #{notIsSUS}
+        </if>
+        group by ${colunas}
+    </select>
+
+</mapper>

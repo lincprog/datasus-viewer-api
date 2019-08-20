@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6
+    restart: "always"
+    ports:
+      - '5432:5432'
+    networks:
+      - net-backend
+    volumes:
+      - $PWD/script-database/:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_USER=datasus_user
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=datasus
+  datasus-view-api:
+    image: openjdk:8-jre-alpine
+    restart: "always"
+    ports:
+      - '8080:8080'
+    networks:
+      - net-backend
+    volumes:
+      - $PWD/target/:/app/
+    working_dir: /app/
+    command: |
+      java -jar datasus-viewer-api-1.0.jar
+    depends_on:
+      - db
+networks:
+  net-backend:

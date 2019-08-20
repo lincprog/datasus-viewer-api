@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.datasus.mappers.StateMapper">
+
+    <select id="findAll" resultType="com.datasus.model.State">
+      SELECT codigouf as codigo,
+             uf as sigla
+      FROM   estado
+
+    </select>
+</mapper>

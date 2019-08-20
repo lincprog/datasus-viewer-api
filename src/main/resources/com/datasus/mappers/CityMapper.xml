@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.datasus.mappers.CityMapper">
+    <select id="findByUf" resultType="com.datasus.model.City">
+        SELECT m.codigo_mun_datasus as codigo,
+               m.nome               as descricao,
+               m.uf                 as siglaEstado
+        FROM municipio m
+        where m.uf = #{uf}
+        order by m.nome
+    </select>
+</mapper>
