@@ -19,7 +19,7 @@
   $ docker-compose up -d
 ```
 
-## Credenciais acesso ao banco de Dados (caso queira acessar de algum SGBD)
+## Credenciais de acesso ao banco de dados (caso queira acessar de algum SGBD)
 
 ```bash
   - url: jdbc:postgresql://localhost:5432/datasus
